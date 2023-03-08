@@ -3,8 +3,7 @@
 
 ## Python PyQt5 학습
 - PyQt 복습
-- QtDesigner 학습  
-<!-- C:\DEV\Langs\Python311\Lib\site-packages\QtDesigner -> designer.exe 작업표시줄 고정-->
+- QtDesigner 학습  <!-- C:\DEV\Langs\Python311\Lib\site-packages\QtDesigner -> designer.exe 작업표시줄 고정-->
 - Naver API 뉴스검색 앱 만들기
 
 
