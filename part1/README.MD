@@ -11,12 +11,11 @@
   - NaverOpenAPI
 
 
-<!-- ![네이버뉴스앱](https://raw.githubusercontent.com/YoungHunPark0/miniprojects/main/images/naver_news2.png) -->
-
-
+<!--HTML 주석
+![네이버뉴스앱](https://raw.githubusercontent.com/YoungHunPark0/miniprojects/main/images/naver_news2.png) 
+-->
 <img src="https://raw.githubusercontent.com/YoungHunPark0/miniprojects/main/images/naver_news2.png" width="780" />
 
 ## DB연동 GUI 개발 학습
-
 
 ## 미니프로젝트 실습
