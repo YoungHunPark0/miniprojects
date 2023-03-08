@@ -7,11 +7,11 @@
 <!-- C:\DEV\Langs\Python311\Lib\site-packages\QtDesigner -> designer.exe 작업표시줄 고정-->
 - Naver API 뉴스검색 앱 만들기
 
-<!--> html주석
-![네이버뉴스앱](https://raw.githubusercontent.com/YoungHunPark0/miniprojects/main/images/naver_news2.png)
--->
 
-<img src="https://raw.githubusercontent.com/YoungHunPark0/miniprojects/main/images/naver_news2.png" width="800" />
+<!-- ![네이버뉴스앱](https://raw.githubusercontent.com/YoungHunPark0/miniprojects/main/images/naver_news2.png) -->
+
+
+<img src="https://raw.githubusercontent.com/YoungHunPark0/miniprojects/main/images/naver_news2.png" width="780" />
 
 ## DB연동 GUI 개발 학습
 
