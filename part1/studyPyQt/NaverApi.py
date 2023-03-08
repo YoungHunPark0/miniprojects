@@ -8,7 +8,7 @@ import json # 결과는 json으로 return 받을 것 이기에 선언!
 class NaverApi:
     # 생성자 - 클래스는 생성자부터 만들기!
     def __init__(self) -> None:
-        print(f'[{datetime.datetime.now}] Naver API 생성')
+        print(f'[{datetime.datetime.now()}] Naver API 생성')
 
     # Naver API를 요청(호출) 함수! 핵심!
     def get_request_url(self, url): 
@@ -23,14 +23,14 @@ class NaverApi:
         try:
             res = urlopen(req) # 요청 결과가 바로 돌아옴
             if res.getcode() == 200: # response OK 제데로 값을 돌려받음
-                print(f'[{datetime.datetime.now}] NaverAPI 요청 성공') # 성공한 시간과 일시 나옴
+                print(f'[{datetime.datetime.now()}] NaverAPI 요청 성공') # 성공한 시간과 일시 나옴
                 return res.read().decode('utf-8') # 한글쓰면 에러날 수 있기에 decode('utf-8)
             
             else:
-                print(f'[{datetime.datetime.now}] NaverAPI 요청 실패')
+                print(f'[{datetime.datetime.now()}] NaverAPI 요청 실패')
                 return None # 실패하면 값을 돌려줄게 없음
         except Exception as e: # 예외처리하고 받을 때 뭐가 예외처리 한지 알아야함
-            print(f'[{datetime.datetime.now}] 예외발생 : {e}')
+            print(f'[{datetime.datetime.now()}] 예외발생 : {e}')
             return None
 
     # 실제 호출함수
@@ -62,4 +62,4 @@ class NaverApi:
         # outputs에 옮기기. mp03_naversearchapp.py에서 outputs = [] 리스트로 되어있기에 리스트 안에 값넣기
         outputs.append({'title':title, 'description':description,
                         'originallink':originallink, 'link':link,
-                        'putDate':pubDate})
+                        'pubDate':pubDate})
