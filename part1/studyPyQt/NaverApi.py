@@ -1,6 +1,5 @@
 # NaverApi 클래스 -> OpenApi는 인터넷을 통해서 데이터를 전달 받음
-from urllib.request import Request, urlopen 
-# request는 클래스, urlopen은 함수
+from urllib.request import Request, urlopen # request는 클래스, urlopen은 함수
 from urllib.parse import quote # quote함수에 encoding 기능이 있음. search는 에러날 가능성이 있어서 사용!
 import datetime # 현재시간 사용
 import json # 결과는 json으로 return 받을 것 이기에 선언!

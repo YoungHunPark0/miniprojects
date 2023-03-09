@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import * # ui 아이콘 변경
+from PyQt5.QtGui import * # ui 아이콘 변경, QIcon은 여기있음
 from NaverApi import *
 import webbrowser # 웹브라우저 모듈
 
@@ -9,7 +9,7 @@ class qtApp(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi('./studyPyQt/naverApiMovie.ui', self)
-        self.setWindowIcon(QIcon('./studyPyQt/newspaper.png')) # 아이콘 변경(파일경로) 파일 따로 다운받아서 폴더에 넣기
+        self.setWindowIcon(QIcon('./studyPyQt/movie.png')) # 아이콘 변경(파일경로) 파일 따로 다운받아서 폴더에 넣기
         
         # 시그널) 검색 버튼 클릭시그널 / 슬롯함수
         self.btnSearch.clicked.connect(self.btnSearchClicked)
@@ -61,24 +61,33 @@ class qtApp(QWidget):
         self.tblResult.setColumnWidth(0, 150) # 첫번째 컬럼행 크기 설정
         self.tblResult.setColumnWidth(1, 60) # 두번째 컬럼행 크기 설정, 개봉년도
         self.tblResult.setColumnWidth(4, 50) # 평점 컬럼 크기
-        # 컬럼 데이터를 수정금지
-        self.tblResult.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tblResult.setEditTriggers(QAbstractItemView.NoEditTriggers) # 컬럼 데이터를 수정금지
 
-        for i, post in enumerate(items): # 0, 영화 ...등 나옴
-            title = self.replaceHtmlTag(post['title']) # HTML 특수문자 변환
+        for i, post in enumerate(items): # 0, 영화..등 나옴
+            title = self.replaceHtmlTag(post['title']) # HTML 특수문자 변환 / 영어제목 가져오기 추가
+            subtitle = post['subtitle']
+            title = f'{title} ({subtitle})' # 제목(서브타이틀) 나오도록 출력
             pubDate = post['pubDate']
-            director = post['director']
-            actor = post['actor']
+            director = post['director'].replace('|', ',')[:-1]
+            actor = post['actor'].replace('|', ',')[:-1] # '|' -> ',' 변경, [:-1] 마지막','표시 없앰, 파이썬에서만 가능!
             userRating = post['userRating']
             link = post['link']
-            # imgData = urlopen(post['image']).read()
-            # image = QPixmap()
-            # if imgData != None:
-            #     image.loadFromData(imgData)            
-            #     imgLabel = QLabel()
-            #     imgLabel.setPixmap(image)
-            #     imgLabel.setGeometry(0, 0, 60, 100)
-            #     imgLabel.resize(60, 100)
+            img_url = post['image']
+
+            # 2. 230308. 포스터이미지 추가
+            if img_url != '': # 빈값이 아니면 포스터가 없음
+                data = urlopen(img_url).read() # 2진데이터 - 네이버영화에 있는 이미지 다운, 텍스트형태 데이터
+                image = QImage() # 이미지 객체
+                image.loadFromData(data)
+                # QTableWidget 이미지를 그냥 넣을 수 없음. QLabel()에 집어넣은 뒤, QLabel -> QTableWidget에 할당
+                imgLabel = QLabel()
+                imgLabel.setPixmap(QPixmap(image))
+            # 1. print(img_url == '') # 빈값이면 True
+
+                # data를 이미지로 저장가능! - 이미지 2진데이터, 포스터파일이 자동으로 temp폴더에 저장됨
+                # f = open(f'./studyPyQt/temp/image_{i+1}.png', mode = 'wb') # 파일쓰기
+                # f.write(data)
+                # f.close()
 
             # setItem(행, 열(컬럼값), 넣을데이터)
             self.tblResult.setItem(i, 0, QTableWidgetItem(title)) # i번째 행, 컬럼에 0, num
@@ -87,8 +96,12 @@ class qtApp(QWidget):
             self.tblResult.setItem(i, 3, QTableWidgetItem(actor))
             self.tblResult.setItem(i, 4, QTableWidgetItem(userRating))
             self.tblResult.setItem(i, 5, QTableWidgetItem(link))
-            # if imgData != None:
-            #     self.tblResult.setCellWidget(i, 6, imgLabel)
+            # self.tblResult.setItem(i, 6, QTableWidgetItem(img_url))
+            if img_url != '':
+                self.tblResult.setCellWidget(i, 6, imgLabel)
+                self.tblResult.setRowHeight(i, 110) # 포스터가 있으면 쉘 높이를 늘림
+            else:
+                self.tblResult.setItem(i, 6, QTableWidgetItem('No Poster!'))
 
     def replaceHtmlTag(self, sentence) -> str: # title(기사제목)에서 &,<b>등 html특수문자 수정작업함수.
         result = sentence.replace('&lt;', '<').replace('&gt;', '>').replace('<b>', '').replace('</b>',
