@@ -46,7 +46,7 @@
   - requests 모듈
   - PyQt
 
-![컴퓨터정보앱](https://raw.githubusercontent.com/YoungHunPark0/miniprojects/main/images/comInfo.png)
+![컴퓨터정보앱](https://raw.githubusercontent.com/YoungHunPark0/miniprojects/main/images/comInfoApp.png)
 
 
 ## 미니프로젝트 실습
