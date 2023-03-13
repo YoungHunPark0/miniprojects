@@ -3,6 +3,7 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import * # ui 아이콘 변경, QIcon은 여기있음
+# 앱만들기 기본틀 : 2~5 , class qtApp, def __init__(self): ,if __name__ == '__main__': 
 import pymysql
 
 class qtApp(QMainWindow):
