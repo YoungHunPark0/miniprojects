@@ -8,7 +8,7 @@ import time
 
 # class Background 부모 -> class qtApp
 class BackgroundWorker(QThread): # PyQt5 스레드를 위한 클래스 존재
-    procChanged = pyqtSignal(str)
+    procChanged = pyqtSignal(int)
     def __init__(self, count=0, parent=None) -> None:
         super().__init__()
         self.main = parent
