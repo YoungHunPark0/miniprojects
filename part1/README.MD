@@ -52,7 +52,20 @@
   - gtts 모듈
   - playsound 모듈
 
-- 암호해제 프로그램
+- 암호해제 앱
   - itertools, zipfile 기본모듈
+  - 무차별 대입공격(BruthForce)
+
+- 쓰레드 사용법
+  - GUI와 처리시간이 긴 로직을 실행하면 반드시 쓰레드 사용
+
+![쓰레드비교](https://raw.githubusercontent.com/YoungHunPark0/miniprojects/main/images/thread.png)
+
+- 이메일 전송, 대량메일 전송
+
+- PyGame
 
 ## 미니프로젝트 실습
+- 테스트앱 만들기
+
+[팀리포지토리](https://github.com/PKNU-IOT-1-TEAM)
