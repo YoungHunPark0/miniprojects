@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using uPLibrary.Networking.M2Mqtt.Messages;
-using MySql;
+using System.Threading;
 
 namespace SmartHomeMonitoringApp.Views
 {
@@ -29,6 +29,8 @@ namespace SmartHomeMonitoringApp.Views
     {
         public bool IsConnected { get; set; }
 
+        Thread MqttThread { get; set; } // 없으면 UI컨트롤이 어려워짐
+        
         public DataBaseControl()
         {
             InitializeComponent();
@@ -60,7 +62,7 @@ namespace SmartHomeMonitoringApp.Views
                     // MQTT Subscribe(구독할) 로직
                     if (Commons.MQTT_CLIENT.IsConnected == false) 
                     {
-                        // MQTT 접속
+                        // MQTT 접속 // 델리게이트체인 커넥트 = 연결할때는 + // 디스커넥트 = 끊을때는 -
                         Commons.MQTT_CLIENT.MqttMsgPublishReceived += MQTT_CLIENT_MqttMsgPublishReceived;
                         Commons.MQTT_CLIENT.Connect("MONITOR"); // clientId = 모니터
                         Commons.MQTT_CLIENT.Subscribe(new string[] { Commons.MQTTTOPIC},
@@ -69,19 +71,35 @@ namespace SmartHomeMonitoringApp.Views
 
                         // try, catch로 인해 오류뜰 수 있으니 다끝나고
                         BtnConnDb.IsEnabled = true;
+                        BtnConnDb.Content = "MQTT 연결중";
                         IsConnected = true; // 예외발생하면 true로 변경할 필요 없음
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // Pass
+                    UpdateLog($"!!! MQTT Erorr 발생 : {ex.Message}");
                 }
             }
             // isconnected가 false면
-            else
+            else // 아니면 접속을 끊어야함
             {
-                BtnConnDb.IsEnabled = false;
-                IsConnected = false;
+                try
+                {
+                    if (Commons.MQTT_CLIENT.IsConnected)
+                    {   // 델리게이트체인 디스커넥트 연결할때는 + // 끊을때는 -
+                        Commons.MQTT_CLIENT.MqttMsgPublishReceived -= MQTT_CLIENT_MqttMsgPublishReceived;
+                        Commons.MQTT_CLIENT.Disconnect();
+                        UpdateLog(">>> MQTT Broker Disconnected...");
+
+                        BtnConnDb.IsEnabled = false;
+                        BtnConnDb.Content = "MQTT 연결종료";
+                        IsConnected = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    UpdateLog($"!!! MQTT Erorr 발생 : {ex.Message}");
+                }
             }
         }
 
@@ -118,7 +136,18 @@ namespace SmartHomeMonitoringApp.Views
                     using (MySqlConnection conn = new MySqlConnection(Commons.MYSQL_CONNSTRING))
                     {
                         if (conn.State == System.Data.ConnectionState.Closed) conn.Open();
-                        string insQuery = "INSERT INTO smarthomesensor ...";
+                        string insQuery = @"INSERT INTO smarthomesensor
+                                             (Home_Id,
+                                             Room_Name,
+                                             Sensing_DateTime,
+                                             Temp,
+                                             Humid)
+                                            VALUES
+                                             (@Home_Id,
+                                             @Room_Name,
+                                             @Sensing_DateTime,
+                                             @Temp,
+                                             @Humid)";
 
                         MySqlCommand cmd = new MySqlCommand(insQuery, conn);
                         cmd.Parameters.AddWithValue("Home_Id", currValue["Home_Id"]);
@@ -140,7 +169,7 @@ namespace SmartHomeMonitoringApp.Views
                 }
                 catch (Exception ex)
                 {
-                    UpdateLog($"!!! Erorr 발생 : {ex.Message}");
+                    UpdateLog($"!!! DB Erorr 발생 : {ex.Message}");
                 }
             }
         }

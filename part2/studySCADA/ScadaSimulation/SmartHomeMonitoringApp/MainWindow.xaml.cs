@@ -15,6 +15,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using SmartHomeMonitoringApp.Views;
+using MahApps.Metro.Controls.Dialogs;
+using SmartHomeMonitoringApp.Logics;
+using System.ComponentModel;
 
 namespace SmartHomeMonitoringApp
 {
@@ -52,8 +55,44 @@ namespace SmartHomeMonitoringApp
 
             if (result == true) 
             {
-                ActiveItem.Content = new Views.DataBaseControl();
+                var userControl = new Views.DataBaseControl();
+                ActiveItem.Content = userControl;
+                StsSelScreen.Content = "DataBase Monitoring"; // typeof(Views.DataBaseControl);
             }
+        }
+
+        private async void MetroWindow_Closing(object sender, CancelEventArgs e)
+        {
+            // 최초의 e.Cancel을 true 하고 시작
+            e.Cancel = true;
+
+            var mySettings = new MetroDialogSettings 
+                                {
+                                    AffirmativeButtonText = "끝내기",
+                                    NegativeButtonText = "취소",
+                                    AnimateShow = true,
+                                    AnimateHide = true
+                                };
+
+            var result = await this.ShowMessageAsync("프로그램 끝내기" ,"프로그램을 끝내시겠습니까?", 
+                                                     MessageDialogStyle.AffirmativeAndNegative, mySettings);
+            if (result == MessageDialogResult.Negative) 
+            {
+                e.Cancel = true;
+            }
+            else if (result == MessageDialogResult.Affirmative) // 캔슬이 아니라 프로그램 종료
+            {   // 커넥트가 응답 중이라면 커넥트를 끊고(디스커넥트) 종료해야함
+                if (Commons.MQTT_CLIENT != null && Commons.MQTT_CLIENT.IsConnected) 
+                {
+                    Commons.MQTT_CLIENT.Disconnect();
+                }
+                Process.GetCurrentProcess().Kill(); // 작업관리자에서 프로세스 종료!// 종료빠름
+            }
+        }
+
+        private void BtnExitProgram_Click(object sender, RoutedEventArgs e)
+        {   // 확인메시지 윈도우클로징 이벤트핸들러 호출
+            this.MetroWindow_Closing(sender, new CancelEventArgs());
         }
     }
 }
