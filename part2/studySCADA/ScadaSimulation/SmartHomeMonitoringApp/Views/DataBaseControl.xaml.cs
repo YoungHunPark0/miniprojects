@@ -45,14 +45,29 @@ namespace SmartHomeMonitoringApp.Views
 
             IsConnected = false; // 아직 접속이 안되었음
             BtnConnDb.IsChecked = false; 
+
+            // null이 아니고 isconnected에 접속되어 있으면
+            // 실시간 모니터링에서 넘어왔을 때
+            if (Commons.MQTT_CLIENT != null && Commons.MQTT_CLIENT.IsConnected)
+            {
+                IsConnected = true;
+                BtnConnDb.Content = "MQTT 연결중";
+                BtnConnDb.IsChecked = true;
+                Commons.MQTT_CLIENT.MqttMsgPublishReceived += MQTT_CLIENT_MqttMsgPublishReceived;
+            }
         }
 
         // 토글버튼 클릭(1번누르면 : 접속, 1번더누르면 : 접속끊기) 이벤트 핸들러
         private void BtnConnDb_Click(object sender, RoutedEventArgs e)
         {
+            ConnectDB();
+        }
+
+        private void ConnectDB()
+        {
             // isconnected가 true면
             if (IsConnected == false) // 최초에는 false고 
-            {   
+            {
                 // MQTT 브로커 생성
                 Commons.MQTT_CLIENT = new uPLibrary.Networking.M2Mqtt.MqttClient(Commons.BROKERHOST);
 
@@ -60,13 +75,13 @@ namespace SmartHomeMonitoringApp.Views
                 try
                 {
                     // MQTT Subscribe(구독할) 로직
-                    if (Commons.MQTT_CLIENT.IsConnected == false) 
+                    if (Commons.MQTT_CLIENT.IsConnected == false)
                     {
                         // MQTT 접속 // 델리게이트체인 커넥트 = 연결할때는 + // 디스커넥트 = 끊을때는 -
                         Commons.MQTT_CLIENT.MqttMsgPublishReceived += MQTT_CLIENT_MqttMsgPublishReceived;
                         Commons.MQTT_CLIENT.Connect("MONITOR"); // clientId = 모니터
-                        Commons.MQTT_CLIENT.Subscribe(new string[] { Commons.MQTTTOPIC},
-                                new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE}); // QOS는 네트워크 통신옵션 // AT_LEAST_ONCE 적어도 한번은 보낸다
+                        Commons.MQTT_CLIENT.Subscribe(new string[] { Commons.MQTTTOPIC },
+                                new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE }); // QOS는 네트워크 통신옵션 // AT_LEAST_ONCE 적어도 한번은 보낸다
                         UpdateLog(">>> MQTT Broker Connected");
 
                         // try, catch로 인해 오류뜰 수 있으니 다끝나고

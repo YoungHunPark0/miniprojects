@@ -18,6 +18,7 @@ using SmartHomeMonitoringApp.Views;
 using MahApps.Metro.Controls.Dialogs;
 using SmartHomeMonitoringApp.Logics;
 using System.ComponentModel;
+using System.Web.UI;
 
 namespace SmartHomeMonitoringApp
 {
@@ -93,6 +94,25 @@ namespace SmartHomeMonitoringApp
         private void BtnExitProgram_Click(object sender, RoutedEventArgs e)
         {   // 확인메시지 윈도우클로징 이벤트핸들러 호출
             this.MetroWindow_Closing(sender, new CancelEventArgs());
+        }
+
+        private void MnuDataBaseMon_Click(object sender, RoutedEventArgs e)
+        {
+            ActiveItem.Content = new Views.DataBaseControl();
+            StsSelScreen.Content = "DataBase Monitoring";
+        }
+
+        private void MnuRealTimeMon_Click(object sender, RoutedEventArgs e)
+        {
+            ActiveItem.Content = new Views.RealTimeControl(); //  == var userControl = new Views.DataBaseControl();
+                                                              //     ActiveItem.Content = userControl;
+            StsSelScreen.Content = "RealTime Monitoring";
+        }
+
+        private void MnuVisualizationMon_Click(object sender, RoutedEventArgs e)
+        {
+            ActiveItem.Content = new Views.VisualizationControl();
+            StsSelScreen.Content = "Visualization View";
         }
     }
 }
