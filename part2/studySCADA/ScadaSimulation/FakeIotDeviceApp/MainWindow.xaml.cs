@@ -32,6 +32,11 @@ namespace FakeIotDeviceApp
         Faker<SensorInfo> FakeHomeSensor { get; set; } = null; // 가짜 스마트홈 센서값 변수
         MqttClient Client { get; set; }
         Thread MqttThread { get; set; }
+
+        // MQTT Publish json 데이터 건수 체크변수
+        int MaxCount { get; set; } = 50;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -85,15 +90,22 @@ namespace FakeIotDeviceApp
                                                                                                 // 실행하고 mqtt explorer에서 확인해보면 나옴
                     // 스레드와 UI스레드간 충돌이 안나도록 변경
                     this.Invoke(new Action(() => {
+                        if (MaxCount <= 0)
+                        {
+                            RtbLog.SelectAll();
+                            RtbLog.Selection.Text = string.Empty; // text를 지워버림
+                            MaxCount = 50; // 갯수가 50개 이상이면 json데이터를 다지우고 다시 처음부터 출력함
+                            RtbLog.AppendText(">>> 문서건수가 많아져서 초기화.\n"); // 메모리에 누적되면 느려지기 때문에 지운다는걸 알림!
+                        }
                         // RtbLog에 출력
                         RtbLog.AppendText($"{jsonValue}\n");
                         RtbLog.ScrollToEnd(); // 스크롤 자동으로 제일 밑으로 보내기. 안하면 사용자가 직접 내려야함
+                        MaxCount--; // log를 출력할때마다 maxCount를 1씩 감소시킴
                     }));
-                    
+
                     // 1초동안 대기
                     Thread.Sleep(1000);
                 }
-
             });
             MqttThread.Start();
         }
