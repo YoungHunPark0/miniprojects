@@ -8,6 +8,7 @@
 	- Bogus(데미데이터 생성 라이브러리)
 	- Newtonsort.json
 	- M2Mqtt(통신 라이브러리)
+	- MySQL
 	- DB 데이터바인딩
 	- LiveCharts
 	- OxyPlot
