@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BogusTestApp", "BogusTestAp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test용", "Test용", "{AE5372C5-F9E8-4258-BFAB-996AA21C7B56}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "시뮬레이션용", "시뮬레이션용", "{4DE9DA93-A46D-4025-89A1-E7E1FA92A3D1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MQTT Publisher", "MQTT Publisher", "{3D6AE5AF-36EE-4967-BB66-72B35B30473B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MQTT Subscriber", "MQTT Subscriber", "{EC3CC087-3EE3-46F0-8CB3-83F96889D0B2}"
@@ -16,6 +14,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeIotDeviceApp", "FakeIotDeviceApp\FakeIotDeviceApp.csproj", "{1F23F07C-E717-43FB-ACB4-0455AA4E40A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHomeMonitoringApp", "SmartHomeMonitoringApp\SmartHomeMonitoringApp.csproj", "{16EACD63-4FE1-453C-8215-FCFD91FDCEB4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RaspberryPi 연결 테스트", "RaspberryPi 연결 테스트", "{D186A3A1-20A0-49C6-A2AE-8758DB835FDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RpiMonitoringApp", "RpiMonitoringApp\RpiMonitoringApp.csproj", "{B1EC974A-CB8D-4514-8E95-B50290552FBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{16EACD63-4FE1-453C-8215-FCFD91FDCEB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16EACD63-4FE1-453C-8215-FCFD91FDCEB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16EACD63-4FE1-453C-8215-FCFD91FDCEB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1EC974A-CB8D-4514-8E95-B50290552FBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1EC974A-CB8D-4514-8E95-B50290552FBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1EC974A-CB8D-4514-8E95-B50290552FBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1EC974A-CB8D-4514-8E95-B50290552FBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{50B74379-D69E-45EE-98BF-4CACBBD7B263} = {AE5372C5-F9E8-4258-BFAB-996AA21C7B56}
 		{1F23F07C-E717-43FB-ACB4-0455AA4E40A2} = {3D6AE5AF-36EE-4967-BB66-72B35B30473B}
 		{16EACD63-4FE1-453C-8215-FCFD91FDCEB4} = {EC3CC087-3EE3-46F0-8CB3-83F96889D0B2}
+		{B1EC974A-CB8D-4514-8E95-B50290552FBA} = {D186A3A1-20A0-49C6-A2AE-8758DB835FDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0C815397-A318-4BE4-89CA-3450CB3B47CC}
